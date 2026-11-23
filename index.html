@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>2026 우리지역탐구 · 행복마을학교 체험 선호도 조사</title>
+  <style>
+    :root {
+      --primary: #1f3b6e;
+      --primary-light: #eef3fb;
+      --accent: #2f6fed;
+      --accent-soft: #e8f0fe;
+      --warn: #b45309;
+      --warn-bg: #fff8eb;
+      --warn-border: #f59e0b;
+      --success: #15803d;
+      --success-bg: #ecfdf3;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 18px 14px 48px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1f3b6e 0%, #2c55a0 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(31, 59, 110, 0.18);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.3px;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(17, 24, 39, 0.05);
+      border: 1px solid rgba(209, 213, 219, 0.6);
+    }
+
+    .step-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.14);
+    }
+
+    .option-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px 14px;
+      border: 1.8px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.15s ease;
+    }
+
+    .radio-card:hover {
+      border-color: #93b4f5;
+    }
+
+    .radio-card.selected-participate {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .radio-card.selected-rehearsal {
+      border-color: var(--warn-border);
+      background: var(--warn-bg);
+    }
+
+    .radio-icon {
+      font-size: 22px;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .radio-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .radio-sub {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .rehearsal-notice {
+      background: var(--warn-bg);
+      border: 1.5px solid var(--warn-border);
+      color: #78350f;
+      border-radius: 12px;
+      padding: 13px 14px;
+      font-size: 13.5px;
+      margin-bottom: 14px;
+    }
+
+    .choice-group-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .choice-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .choice-pill.filled {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .course-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 14px 10px;
+      border: 1.8px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .course-btn .emoji {
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .course-btn .name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .course-btn.active-1 {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 2px rgba(31, 59, 110, 0.14);
+    }
+
+    .course-btn.active-2 {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 2px rgba(47, 111, 237, 0.14);
+    }
+
+    .course-btn:disabled {
+      opacity: 0.36;
+      cursor: not-allowed;
+      background: #f3f4f6;
+    }
+
+    .course-tag {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .course-btn.active-2 .course-tag {
+      background: var(--accent);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: inherit;
+      color: #fff;
+      background: linear-gradient(135deg, #1f3b6e 0%, #2f6fed 100%);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(31, 59, 110, 0.22);
+      transition: transform 0.1s, opacity 0.15s;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error-msg {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+      border-radius: 10px;
+      padding: 11px 13px;
+      font-size: 13.5px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .success-card {
+      text-align: center;
+      padding: 28px 20px;
+    }
+
+    .success-icon {
+      font-size: 46px;
+      margin-bottom: 10px;
+    }
+
+    .success-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--success);
+      margin: 0 0 8px;
+    }
+
+    .summary-box {
+      background: var(--success-bg);
+      border: 1px solid #86efac;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 14px;
+      margin: 16px 0 18px;
+      line-height: 1.8;
+    }
+
+    .retry-btn {
+      background: #fff;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      border-radius: 11px;
+      padding: 11px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .setup-banner {
+      background: #fff1f2;
+      border: 1.5px solid #fda4af;
+      color: #9f1239;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">마산내서여자고등학교 · 2학년 우리 지역 탐구</div>
+      <h1>12/17(목) 경남행복마을학교<br>오후 체험 선호도 조사</h1>
+      <p>오후 체험은 실참여 학생 선호도가 높은 <strong>상위 2개 강좌</strong>를 개설합니다.<br>30초 안에 응답을 완료해 주세요!</p>
+    </div>
+
+    <div id="setupBanner" class="setup-banner hidden">
+      <strong>[관리자 안내]</strong> 구글 시트 Apps Script 웹앱 URL이 아직 연결되지 않았습니다.<br>
+      <code>index.html</code> 상단의 <code>GAS_WEB_APP_URL</code>에 배포된 URL을 입력해 주세요.
+    </div>
+
+    <form id="surveyForm" novalidate>
+      <!-- STEP 1: 학생 선택 -->
+      <div class="card">
+        <div class="step-label">STEP 1</div>
+        <h2 class="card-title">본인 학번과 이름을 선택해 주세요</h2>
+        <p class="card-desc">「우리 지역 탐구」 수강생 17명 명단에서 본인 이름을 고르세요.</p>
+        <select id="studentSelect" required>
+          <option value="">-- 학번 / 이름 선택 --</option>
+        </select>
+      </div>
+
+      <!-- STEP 2: 오후 리허설 여부 -->
+      <div class="card">
+        <div class="step-label">STEP 2</div>
+        <h2 class="card-title">12월 17일(목) 오후에 가온제(축제) 무대 리허설을 해야 하나요?</h2>
+        <p class="card-desc">오후 리허설로 본교에 복귀하는 경우, 오후 체험은 선택하지 않습니다.</p>
+        <div class="option-stack">
+          <div class="radio-card" id="cardParticipate" role="button" tabindex="0">
+            <div class="radio-icon">✨</div>
+            <div>
+              <div class="radio-title">아니요, 오후 체험 참여할게요</div>
+              <div class="radio-sub">경남행복마을학교에서 오후 체험(5~8교시)까지 참여합니다.</div>
+            </div>
+          </div>
+          <div class="radio-card" id="cardRehearsal" role="button" tabindex="0">
+            <div class="radio-icon">🎤</div>
+            <div>
+              <div class="radio-title">네, 오후에 리허설 해야 해요 (선택 안 함)</div>
+              <div class="radio-sub">오전 발표 후 리허설을 위해 본교로 복귀합니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3-A: 오후 체험 1·2선호 (리허설 안 함 선택 시 표시) -->
+      <div class="card hidden" id="courseSection">
+        <div class="step-label">STEP 3</div>
+        <h2 class="card-title">희망하는 체험 강좌 1선호 · 2선호를 골라주세요</h2>
+        <p class="card-desc">1선호와 2선호는 서로 다른 강좌를 선택해 주세요. (상위 2개 강좌 최종 개설)</p>
+
+        <div class="choice-group-title">
+          <span>1선호 (가장 하고 싶은 체험)</span>
+          <span class="choice-pill" id="pill1">미선택</span>
+        </div>
+        <div class="course-grid" id="grid1"></div>
+
+        <div class="choice-group-title">
+          <span>2선호 (두 번째로 하고 싶은 체험)</span>
+          <span class="choice-pill" id="pill2">미선택</span>
+        </div>
+        <div class="course-grid" id="grid2"></div>
+
+        <div style="margin-top: 4px;">
+          <label for="ideaInput" style="display:block; font-size:13.5px; font-weight:700; margin-bottom:6px;">
+            우리 조 탐구 주제와 체험 연계 아이디어 <span style="color:#6b7280; font-weight:400;">(선택)</span>
+          </label>
+          <input type="text" id="ideaInput" maxlength="120" placeholder="예: 내서 특산물 활용 요리, 지역 홍보 굿즈 만들기 등" />
+        </div>
+      </div>
+
+      <!-- STEP 3-B: 리허설 복귀 안내 (리허설 해야 함 선택 시 표시) -->
+      <div class="card hidden" id="rehearsalSection">
+        <div class="step-label">STEP 3</div>
+        <h2 class="card-title">오후 본교 복귀(리허설) 확인</h2>
+        <div class="rehearsal-notice">
+          오후 체험은 <strong>선택 안 함</strong>으로 처리되며, 오후 체험 강좌 수요 집계에서 자동 제외됩니다. 아래 제출 버튼만 눌러 주세요!
+        </div>
+        <label for="teamInput" style="display:block; font-size:13.5px; font-weight:700; margin-bottom:6px;">
+          축제 출연 팀명 / 메모 <span style="color:#6b7280; font-weight:400;">(선택)</span>
+        </label>
+        <input type="text" id="teamInput" maxlength="80" placeholder="예: 댄스부 리허설, 밴드부 리허설 등" />
+      </div>
+
+      <div id="errorBox" class="error-msg hidden"></div>
+
+      <button type="submit" id="submitBtn" class="submit-btn">설문 제출하기</button>
+    </form>
+
+    <!-- 제출 완료 화면 -->
+    <div id="successCard" class="card success-card hidden">
+      <div class="success-icon">✅</div>
+      <h2 class="success-title">제출이 완료되었습니다!</h2>
+      <p style="margin:0; font-size:14px; color:#4b5563;">응답 내용이 선생님 시트에 자동으로 반영되었습니다.</p>
+      <div class="summary-box" id="summaryBox"></div>
+      <button type="button" class="retry-btn" id="retryBtn">응답 수정하기 (다시 제출)</button>
+    </div>
+
+    <div class="footer">
+      마산내서여자고등학교 교육과정부 · 문의: 진대현 선생님 (010-7189-0914)
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // [중요] Apps Script 배포 후 발급된 웹 앱 URL(.../exec)을 아래에 넣으세요!
+    // =========================================================================
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby2bJqQR_894e-p2s-mhLRUu2_Lw3FOcT1qkAk59-svXhTv_LRmncSdodVGQUjT4zwW1w/exec';
+
+    const STUDENTS = [
+      { id: '20101', name: '강수민' },
+      { id: '20109', name: '박세현' },
+      { id: '20319', name: '이정원' },
+      { id: '20405', name: '김이랑' },
+      { id: '20417', name: '이수연' },
+      { id: '20501', name: '권서윤' },
+      { id: '20603', name: '김서영' },
+      { id: '20604', name: '김시현' },
+      { id: '20614', name: '정다민' },
+      { id: '20616', name: '정유나' },
+      { id: '20718', name: '조미정' },
+      { id: '20723', name: '황현서' },
+      { id: '20812', name: '서자민' },
+      { id: '20817', name: '이수현' },
+      { id: '20820', name: '전근아' },
+      { id: '20909', name: '박서영' },
+      { id: '20917', name: '장서윤' }
+    ];
+
+    const COURSES = [
+      { name: '목공', emoji: '🪵' },
+      { name: '도예', emoji: '🏺' },
+      { name: '공예', emoji: '🎨' },
+      { name: '요리', emoji: '🍳' },
+      { name: '커피·음료', emoji: '☕' },
+      { name: '밴드', emoji: '🎸' }
+    ];
+
+    const state = {
+      hasRehearsal: null, // false: 오후 참여, true: 리허설(선택안함)
+      choice1: '',
+      choice2: ''
+    };
+
+    // URL 파라미터 ?api=... 로도 테스트/오버라이드 가능
+    const params = new URLSearchParams(window.location.search);
+    const API_URL = params.get('api') || GAS_WEB_APP_URL;
+
+    const setupBanner = document.getElementById('setupBanner');
+    const studentSelect = document.getElementById('studentSelect');
+    const cardParticipate = document.getElementById('cardParticipate');
+    const cardRehearsal = document.getElementById('cardRehearsal');
+    const courseSection = document.getElementById('courseSection');
+    const rehearsalSection = document.getElementById('rehearsalSection');
+    const grid1 = document.getElementById('grid1');
+    const grid2 = document.getElementById('grid2');
+    const pill1 = document.getElementById('pill1');
+    const pill2 = document.getElementById('pill2');
+    const errorBox = document.getElementById('errorBox');
+    const submitBtn = document.getElementById('submitBtn');
+    const surveyForm = document.getElementById('surveyForm');
+    const successCard = document.getElementById('successCard');
+    const summaryBox = document.getElementById('summaryBox');
+    const retryBtn = document.getElementById('retryBtn');
+
+    if (!API_URL || API_URL.indexOf('http') !== 0) {
+      setupBanner.classList.remove('hidden');
+    }
+
+    // 학생 드롭다운 채우기
+    STUDENTS.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = `${s.id} ${s.name}`;
+      studentSelect.appendChild(opt);
+    });
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.classList.remove('hidden');
+    }
+
+    function clearError() {
+      errorBox.classList.add('hidden');
+    }
+
+    function setRehearsalMode(isRehearsal) {
+      state.hasRehearsal = isRehearsal;
+      clearError();
+      cardParticipate.classList.toggle('selected-participate', !isRehearsal);
+      cardRehearsal.classList.toggle('selected-rehearsal', isRehearsal);
+      courseSection.classList.toggle('hidden', isRehearsal);
+      rehearsalSection.classList.toggle('hidden', !isRehearsal);
+      if (isRehearsal) {
+        state.choice1 = '';
+        state.choice2 = '';
+        renderCourses();
+      }
+    }
+
+    cardParticipate.addEventListener('click', () => setRehearsalMode(false));
+    cardRehearsal.addEventListener('click', () => setRehearsalMode(true));
+
+    function renderCourses() {
+      grid1.innerHTML = '';
+      grid2.innerHTML = '';
+
+      pill1.textContent = state.choice1 || '미선택';
+      pill1.classList.toggle('filled', Boolean(state.choice1));
+      pill2.textContent = state.choice2 || '미선택';
+      pill2.classList.toggle('filled', Boolean(state.choice2));
+
+      COURSES.forEach(c => {
+        const b1 = document.createElement('button');
+        b1.type = 'button';
+        b1.className = 'course-btn' + (state.choice1 === c.name ? ' active-1' : '');
+        b1.innerHTML = `${state.choice1 === c.name ? '<span class="course-tag">1선호</span>' : ''}<span class="emoji">${c.emoji}</span><span class="name">${c.name}</span>`;
+        b1.addEventListener('click', () => {
+          state.choice1 = c.name;
+          if (state.choice2 === c.name) state.choice2 = '';
+          clearError();
+          renderCourses();
+        });
+        grid1.appendChild(b1);
+
+        const b2 = document.createElement('button');
+        b2.type = 'button';
+        const isSameAs1 = state.choice1 === c.name;
+        b2.disabled = isSameAs1;
+        b2.className = 'course-btn' + (state.choice2 === c.name ? ' active-2' : '');
+        b2.innerHTML = `${state.choice2 === c.name ? '<span class="course-tag">2선호</span>' : ''}<span class="emoji">${c.emoji}</span><span class="name">${c.name}</span>`;
+        b2.addEventListener('click', () => {
+          if (isSameAs1) return;
+          state.choice2 = c.name;
+          clearError();
+          renderCourses();
+        });
+        grid2.appendChild(b2);
+      });
+    }
+
+    renderCourses();
+
+    surveyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const studentId = studentSelect.value;
+      const student = STUDENTS.find(s => s.id === studentId);
+      if (!student) {
+        showError('STEP 1에서 본인 학번과 이름을 선택해 주세요.');
+        studentSelect.focus();
+        return;
+      }
+
+      if (state.hasRehearsal === null) {
+        showError('STEP 2에서 오후 리허설 여부를 선택해 주세요.');
+        return;
+      }
+
+      if (!state.hasRehearsal) {
+        if (!state.choice1) {
+          showError('1선호 체험 강좌를 선택해 주세요.');
+          return;
+        }
+        if (!state.choice2) {
+          showError('2선호 체험 강좌를 선택해 주세요.');
+          return;
+        }
+        if (state.choice1 === state.choice2) {
+          showError('1선호와 2선호는 서로 다른 강좌를 선택해 주세요.');
+          return;
+        }
+      }
+
+      if (!API_URL || API_URL.indexOf('http') !== 0) {
+        showError('아직 구글 시트 연동 주소(Apps Script 웹앱 URL)가 설정되지 않았습니다.');
+        return;
+      }
+
+      const note = state.hasRehearsal
+        ? document.getElementById('teamInput').value.trim()
+        : document.getElementById('ideaInput').value.trim();
+
+      const payload = {
+        studentId: student.id,
+        studentName: student.name,
+        hasRehearsal: state.hasRehearsal,
+        choice1: state.hasRehearsal ? '' : state.choice1,
+        choice2: state.hasRehearsal ? '' : state.choice2,
+        note: note
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '시트에 저장하는 중...';
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          redirect: 'follow'
+        });
+
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (_) {
+          // 일부 브라우저/리다이렉트 환경에서 응답 파싱 fallback
+          if (res.ok) data = { ok: true };
+        }
+
+        if (!data || !data.ok) {
+          throw new Error((data && data.error) || '저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        }
+
+        const statusLine = state.hasRehearsal
+          ? '<strong>오후 리허설로 본교 복귀</strong> (오후 체험 선택 안 함)'
+          : `<strong>오후 체험 참여</strong><br>• 1선호: <strong>${state.choice1}</strong><br>• 2선호: <strong>${state.choice2}</strong>`;
+
+        summaryBox.innerHTML =
+          `• 학생: <strong>${student.id} ${student.name}</strong><br>` +
+          `• 참여 구분: ${statusLine}` +
+          (note ? `<br>• 메모: ${note.replace(/</g, '&lt;')}` : '');
+
+        surveyForm.classList.add('hidden');
+        successCard.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        showError(err.message || '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '설문 제출하기';
+      }
+    });
+
+    retryBtn.addEventListener('click', () => {
+      successCard.classList.add('hidden');
+      surveyForm.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
